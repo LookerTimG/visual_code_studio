@@ -13,6 +13,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   if(isset($_POST["path"])){
     $path = $_POST["path"];
   }
+  if(isset($_POST["fname"])){
+    $fname = $_POST["fname"];
+  }
+  if(isset($_POST["lname"])){
+    $lname = $_POST["lname"];
+  }
 }
 ?>
 <form action="embed.php" method="post">
@@ -31,6 +37,12 @@ localhost:9999
 <label>path</label>
 /login/embed/
 <input type="text" value="<?php echo !empty($path) ? $path : ''; ?>" name="path" size="100">
+<label>fname</label>
+<input type="text" value="<?php echo !empty($fname) ? $fname : ''; ?>" name="fname" size="100">
+<br />
+<label>lname</label>
+<input type="text" value="<?php echo !empty($lname) ? $lname : ''; ?>" name="lname" size="100">
+<br />
 <br />
 <input type="submit">
 </form>
@@ -47,8 +59,8 @@ $json_nonce = json_encode(md5(uniqid()));
 $json_current_time = json_encode(time());
 $json_session_length = json_encode(3600);
 $json_external_user_id = json_encode("<db_user_id>");
-$json_first_name = json_encode("<first_name>");
-$json_last_name = json_encode("<last_name>");
+$json_first_name = json_encode("$fname");
+$json_last_name = json_encode("$lname");
 $json_permissions = json_encode( array ( "see_user_dashboards", "see_lookml_dashboards", "access_data", "see_looks" ) );
 $json_models = json_encode( array ( "<your_model_name>" ) );
 $json_group_ids = json_encode( array ( 4, 2 ) );  // just some example group ids
