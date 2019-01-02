@@ -1,9 +1,48 @@
 <?php
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  if(isset($_POST["secret"])){
+    $secret = $_POST["secret"];
+  }
+  if(isset($_POST["embedpath"])){
+    $embedpath = $_POST["embedpath"];
+  }
+  if(isset($_POST["host"])){
+    $host = $_POST["host"];
+  }
+  if(isset($_POST["path"])){
+    $path = $_POST["path"];
+  }
+}
+?>
+<form action="embed.php" method="post">
+<label>secret</label>
+fd156360b05c96d39f7c06bf7a63fb7410e8cd41fa2e3f98b66c1161fe038a80
+<input type="text" value="<?php echo !empty($secret) ? $secret : ''; ?>" name="secret" size="100">
+<br />
+<label>embedpath</label>
+/embed/looks/2
+<input type="text" value="<?php echo !empty($embedpath) ? $embedpath : ''; ?>" name="embedpath" size="100">
+<br />
+<label>host</label>
+localhost:9999
+<input type="text" value="<?php echo !empty($host) ? $host : ''; ?>" name="host" size="100">
+<br />
+<label>path</label>
+/login/embed/
+<input type="text" value="<?php echo !empty($path) ? $path : ''; ?>" name="path" size="100">
+<br />
+<input type="submit">
+</form>
+
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 date_default_timezone_set('America/Los_Angeles');
-$secret = "fd156360b05c96d39f7c06bf7a63fb7410e8cd41fa2e3f98b66c1161fe038a80";
-$embedpath= "/embed/looks/2";
-$host = "localhost:9999";
-$path = "/login/embed/" . urlencode($embedpath);
+// $secret = "fd156360b05c96d39f7c06bf7a63fb7410e8cd41fa2e3f98b66c1161fe038a80";
+// $embedpath= "/embed/looks/2";
+// $host = "localhost:9999";
+// $path = "/login/embed/" . urlencode($embedpath);
+$path = $path . urlencode($embedpath);
 $json_nonce = json_encode(md5(uniqid()));
 $json_current_time = json_encode(time());
 $json_session_length = json_encode(3600);
@@ -64,6 +103,7 @@ foreach ($queryparams as $key => $value) {
   $querystring .= "$key=" . urlencode($value);
 }
 $final = "https://" . $host . $path . "?" . $querystring;
+}
 ?>
 <textarea rows="15" cols="120">
 <?php
@@ -71,3 +111,5 @@ echo $final;
 echo "\n";
 ?>
 </textarea>
+
+<a href="<?php echo $final; ?>" target="_blank">Open Embed in separate tab</a>
